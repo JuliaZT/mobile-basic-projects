@@ -1,12 +1,8 @@
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +13,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import databeans.CallInformation;
+
 /**
  * Servlet implementation class CallLogGet
+ * Display up to 10 of the most recent calls
  */
 @WebServlet("/CallLogGet")
 public class CallLogGet extends HttpServlet {
@@ -36,41 +35,23 @@ public class CallLogGet extends HttpServlet {
 	private static final String FIELD_NUM = "phone";
 
 	
+	/**
+	 * Fetch data from the example server, and return up to 10 most recent calls as the response
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// get data from server
 		CallInformation[] recentCallLog = fetchCallLogData();
 		
-		/**
-		for (CallInformation c : recentCallLog) {
-			if (c.getIdentity() != null) {
-			    System.out.println(c.getIdentity());
-			}
-	    }*/
-		
 		// display data on the web page
-		response.setContentType("text/html");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		
-	}
-	
-	public static String fetchText() throws IOException{
-		
-		URL url = new URL(URL_STRING);
-		StringBuilder sB = new StringBuilder();
-		BufferedReader rd = new BufferedReader(new InputStreamReader(url.openStream()));
-				
-		String line;
-		while ((line = rd.readLine()) != null) {
-			sB.append(line);
-		}
-		rd.close();
-		return sB.toString();
+		request.setAttribute("data", recentCallLog);
+		RequestDispatcher d = request.getRequestDispatcher("CallLogList.jsp");
+		d.forward(request, response);
 	}
 	
 	private CallInformation[] fetchCallLogData(){
 		try {
-			JSONArray array = new JSONArray(fetchText());
+			String text = URLReader.fetchText(URL_STRING);
+			JSONArray array = new JSONArray(text);
 			int callNum = Math.min(CALL_DATA_NUM, array.length());
 			CallInformation[] recentCallLog = new CallInformation[callNum];
 			for (int i = 0; i < callNum; i++) {

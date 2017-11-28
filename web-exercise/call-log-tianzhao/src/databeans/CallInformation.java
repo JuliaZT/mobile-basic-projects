@@ -1,3 +1,4 @@
+package databeans;
 public class CallInformation {
 	
 	private Long utcTimestamp;

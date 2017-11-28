@@ -1,4 +1,8 @@
 package databeans;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CallInformation {
 	
 	private Long utcTimestamp;
@@ -17,6 +21,13 @@ public class CallInformation {
 		this.termination = null;
 		this.callDirection = null;
 		this.phoneNumber = null;
+	}
+	
+	public String getFormattedTime() {
+		// timestamp is in milliseconds
+		Date time = new Date(this.utcTimestamp * 1000);
+		SimpleDateFormat fm = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		return fm.format(time);		
 	}
 	
 	public long getTime() {

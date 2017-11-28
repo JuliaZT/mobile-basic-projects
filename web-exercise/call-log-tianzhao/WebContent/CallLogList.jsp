@@ -10,20 +10,25 @@
 		<%@ page import="databeans.CallInformation" %>
 		<% CallInformation[] data = (CallInformation[]) request.getAttribute("data"); %>
 
-		<table>
+		<table style="table-layout:fixed">
+		    <col width="150">
+		    <col width="120">
+		    <col width="150">
+		    <col width="120">
+		    <col width="120">
 			<tr>
-				<th>TimeStamp</th>
-				<th>PhoneNumber</th>
-				<th>Identity</th>
-				<th>Reputation</th>
-				<th>CallDirection</th>
+				<th align="left">TimeStamp</th>
+				<th align="left">PhoneNumber</th>
+				<th align="left">Identity</th>
+				<th align="left">Reputation</th>
+				<th align="left">CallDirection</th>
 			</tr>
 		<%
       		for (int i = 0; i < data.length; i++) {
             		CallInformation c = data[i];
 		%>
 			<tr>
-				<td><%=Long.toString(c.getTime())%></td>
+				<td><%=c.getFormattedTime()%></td>
 				<td><%=c.getPhoneNumber()%></td>
 				<%
 					if (c.getIdentity() == null) {

@@ -23,10 +23,25 @@ public class CallInformation {
 		this.phoneNumber = null;
 	}
 	
+	/**
+	 * Extract only the date portion from the timestamp.
+	 * @return The time in the format of day/month/year
+	 */
+	public String getFormattedDate() {
+		// timestamp is in milliseconds
+		Date time = new Date(this.utcTimestamp * 1000);
+		SimpleDateFormat fm = new SimpleDateFormat("dd/MM/yyyy");
+		return fm.format(time);		
+	}
+	
+	/**
+	 * Extract only the time portion from the timestamp.
+	 * @return The time in the format of hour:minute:second
+	 */
 	public String getFormattedTime() {
 		// timestamp is in milliseconds
 		Date time = new Date(this.utcTimestamp * 1000);
-		SimpleDateFormat fm = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		SimpleDateFormat fm = new SimpleDateFormat("HH:mm:ss");
 		return fm.format(time);		
 	}
 	

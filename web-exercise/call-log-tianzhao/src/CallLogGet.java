@@ -1,5 +1,3 @@
-
-
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -14,6 +12,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import databeans.CallInformation;
+import datarenderers.CallLogDataRender;
+import datarenderers.CallLogDataRenderBasic;
+import datarenderers.CallLogDataRenderByDate;
 
 /**
  * Servlet implementation class CallLogGet
@@ -24,7 +25,8 @@ public class CallLogGet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private static final String URL_STRING = "http://localhost:3000/call_log";
-	private static final int CALL_DATA_NUM = 10;
+	
+	private static final String ERROR_JSP = "CallLogError.jsp";
 	
 	private static final String FIELD_TIME = "utcTimestamp";
 	private static final String FIELD_IDENTITY = "identity";
@@ -34,6 +36,8 @@ public class CallLogGet extends HttpServlet {
 	private static final String FIELD_DIR = "callDirection";
 	private static final String FIELD_NUM = "phone";
 
+	private static final int CALL_DATA_NUM = 10;
+	private static final CallLogDataRender dataVisualizer = new CallLogDataRenderByDate();
 	
 	/**
 	 * Fetch data from the example server, and return up to 10 most recent calls as the response
@@ -42,14 +46,14 @@ public class CallLogGet extends HttpServlet {
 		// get data from server
 		CallInformation[] recentCallLog = fetchCallLogData();
 		if (recentCallLog == null) {
-			RequestDispatcher d = request.getRequestDispatcher("CallLogError.jsp");
+			RequestDispatcher d = request.getRequestDispatcher(ERROR_JSP);
 			d.forward(request, response);
 			return;
 		}
 		
 		// display data on the web page
-		request.setAttribute("data", recentCallLog);
-		RequestDispatcher d = request.getRequestDispatcher("CallLogList.jsp");
+		dataVisualizer.attachJavaBeans(request, recentCallLog);
+		RequestDispatcher d = request.getRequestDispatcher(dataVisualizer.getJSP());
 		d.forward(request, response);
 	}
 	

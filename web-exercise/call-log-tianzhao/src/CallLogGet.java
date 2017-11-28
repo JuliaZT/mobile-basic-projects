@@ -41,6 +41,11 @@ public class CallLogGet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// get data from server
 		CallInformation[] recentCallLog = fetchCallLogData();
+		if (recentCallLog == null) {
+			RequestDispatcher d = request.getRequestDispatcher("CallLogError.jsp");
+			d.forward(request, response);
+			return;
+		}
 		
 		// display data on the web page
 		request.setAttribute("data", recentCallLog);
@@ -60,7 +65,6 @@ public class CallLogGet extends HttpServlet {
 			}
 			return recentCallLog;
 		} catch (IOException e) {
-			System.out.println(e.getStackTrace());
 			return null;
 		}
 	}

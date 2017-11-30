@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import databeans.CallInformation;
 
+/**
+ * A data renderer that displays the call log data by date.
+ */
 public class CallLogDataRenderByDate implements CallLogDataRender {
 	
 	private final String JSP = "CallLogListByDate.jsp";

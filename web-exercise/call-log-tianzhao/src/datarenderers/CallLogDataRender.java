@@ -5,7 +5,8 @@ import javax.servlet.http.HttpServletRequest;
 import databeans.CallInformation;
 
 /**
- * Allow different data visualization of the call log data.
+ * Interface of Call Log Data Renderers
+ * It aims to support various visualizations of the call log data.
  */
 public interface CallLogDataRender {
 	

@@ -3,6 +3,10 @@ package databeans;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * A data model that stores the information of a call log entry.
+ *
+ */
 public class CallInformation {
 	
 	private Long utcTimestamp;

@@ -17,8 +17,8 @@ import datarenderers.CallLogDataRenderBasic;
 import datarenderers.CallLogDataRenderByDate;
 
 /**
- * Servlet implementation class CallLogGet
- * Display up to 10 of the most recent calls
+ * CallLogGet retrieves and displays data from the server.
+ * It displays up to 10 of the most recent calls.
  */
 @WebServlet("/CallLogGet")
 public class CallLogGet extends HttpServlet {
@@ -57,6 +57,7 @@ public class CallLogGet extends HttpServlet {
 		d.forward(request, response);
 	}
 	
+	// Parse JSON data from the url
 	private CallInformation[] fetchCallLogData(){
 		try {
 			String text = URLReader.fetchText(URL_STRING);
